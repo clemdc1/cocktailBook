@@ -6,7 +6,7 @@ import { Cocktail } from '../models/cocktail.model';
   providedIn: 'root',
 })
 export class CocktailService {
-  public cocktails: BehaviorSubject<Cocktail[]> = new BehaviorSubject([
+  public cocktails$: BehaviorSubject<Cocktail[]> = new BehaviorSubject([
     {
       name: 'Mojito',
       img: 'https://static.750g.com/images/1200-630/b520523117d647dab6b842a36f4cc7f5/mojito-le-vrai.jpg',
@@ -27,8 +27,11 @@ export class CocktailService {
     },
   ]);
 
-  public selectedCocktail: BehaviorSubject<Cocktail> = new BehaviorSubject(
-    this.cocktails.value[0]
+  public selectedCocktail$: BehaviorSubject<Cocktail> = new BehaviorSubject(
+    this.cocktails$.value[0]
   );
   constructor() {}
+  public selectCocktail(index: number): void {
+    this.selectedCocktail$.next(this.cocktails$.value[index]);
+  }
 }
