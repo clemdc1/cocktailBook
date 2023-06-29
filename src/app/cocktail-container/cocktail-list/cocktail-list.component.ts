@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Cocktail } from '../../models/cocktail.model';
 import { CommonModule } from '@angular/common';
 
@@ -11,5 +11,11 @@ import { CommonModule } from '@angular/common';
 })
 export class CocktailListComponent {
   @Input({ required: true }) cocktails!: Cocktail[];
+  @Output() private changeCocktail: EventEmitter<number> =
+    new EventEmitter<number>();
   constructor() {}
+
+  selectCocktail(index: number): void {
+    this.changeCocktail.emit(index);
+  }
 }

@@ -21,16 +21,19 @@ export class CocktailContainerComponent {
     },
     {
       name: 'Cosmopolitan',
-      img: 'https://www.hangoverweekends.co.uk/media/15507/gallery-1430408520-dmg-cosmopolitan-cocktail-001.jpg?width=330px&height=407px',
+      img: 'https://assets.afcdn.com/recipe/20180705/80274_w1024h1024c1cx2378cy1278.webp',
       description:
         'The tangy concoction of vodka, triple sec, lime juice and cranberry juice has managed to leapfrog the venerable screwdriver as many vodka drinkers prefer the Cosmopolitan’s cleaner and slightly tart taste. The keys to the preparation of a Cosmopolitan are a good brand of cranberry juice and Cointreau Triple Sec, two essential elements to the drink.',
     },
     {
       name: 'Mai Tai',
-      img: 'https://www.hangoverweekends.co.uk/media/15506/mm-cocktail-guide-maitai-590x375.jpg?width=434px&height=276px',
+      img: 'https://www.cocktail.fr/wp-content/uploads/2017/05/mai-tai.jpg',
       description:
         'The Mai Tai is a Polynesian-style cocktail that has a fruity tropical taste sweet and vibrant. The mixture of light and dark rum, orange curacao, orgeat syrup and lime juice has been a symbol of Tahitian culture ever since the drink was first created.',
     },
   ];
   public selectedCocktail: Cocktail = this.cocktails[0];
+  selectCocktail(index: number) {
+    this.selectedCocktail = this.cocktails[index];
+  }
 }
