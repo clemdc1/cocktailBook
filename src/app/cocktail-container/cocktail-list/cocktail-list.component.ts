@@ -12,6 +12,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [CommonModule, SelectedDirective, RouterLinkActive, RouterLink],
 })
 export class CocktailListComponent {
-  @Input({ required: true }) cocktails?: Cocktail[];
+  @Input({ required: true }) cocktails: Cocktail[] | null = null;
   constructor() {}
 }
