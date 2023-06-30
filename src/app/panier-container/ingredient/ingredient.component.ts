@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Ingredient } from 'src/app/models/ingredient.model';
 
 @Component({
   selector: 'app-ingredient',
@@ -8,4 +9,6 @@ import { Component } from '@angular/core';
   templateUrl: './ingredient.component.html',
   styleUrls: ['./ingredient.component.scss'],
 })
-export class IngredientComponent {}
+export class IngredientComponent {
+  @Input() public ingredients: Ingredient[] | null = null;
+}
