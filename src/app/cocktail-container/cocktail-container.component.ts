@@ -5,16 +5,21 @@ import { CocktailListComponent } from './cocktail-list/cocktail-list.component';
 import { CocktailDetailsComponent } from './cocktail-details/cocktail-details.component';
 import { CocktailService } from '../services/cocktail.service';
 import { Subscription } from 'rxjs';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-cocktail-container',
   standalone: true,
-  imports: [CommonModule, CocktailListComponent, CocktailDetailsComponent],
+  imports: [
+    CommonModule,
+    CocktailListComponent,
+    CocktailDetailsComponent,
+    RouterOutlet,
+  ],
   templateUrl: './cocktail-container.component.html',
   styleUrls: ['./cocktail-container.component.scss'],
 })
 export class CocktailContainerComponent implements OnInit, OnDestroy {
-  public selectedCocktail!: Cocktail;
   public cocktails!: Cocktail[];
   public subscription: Subscription = new Subscription();
   constructor(private cocktailService: CocktailService) {}
@@ -24,16 +29,6 @@ export class CocktailContainerComponent implements OnInit, OnDestroy {
         this.cocktails = cocktails;
       })
     );
-    this.subscription.add(
-      this.cocktailService.selectedCocktail$.subscribe(
-        (selectedCocktail: Cocktail) => {
-          this.selectedCocktail = selectedCocktail;
-        }
-      )
-    );
-  }
-  public selectCocktail(index: number) {
-    this.cocktailService.selectCocktail(index);
   }
 
   ngOnDestroy() {
