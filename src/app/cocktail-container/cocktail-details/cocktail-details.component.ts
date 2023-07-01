@@ -13,26 +13,26 @@ import { ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
   styleUrls: ['./cocktail-details.component.scss'],
 })
 export class CocktailDetailsComponent implements OnInit {
-  public cocktail: Cocktail;
+  public cocktail!: Cocktail;
   constructor(
     private cocktailService: CocktailService,
     private panierService: PanierService,
     private activatedRoute: ActivatedRoute
-  ) {
-    this.cocktail = this.cocktailService.getCocktail(
-      +this.activatedRoute.snapshot.paramMap.get('index')!
-    );
-  }
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       const cocktailIndex = paramMap.get('index');
       if (cocktailIndex) {
-        this.cocktail = this.cocktailService.getCocktail(+cocktailIndex);
+        this.cocktailService
+          .getCocktail(+cocktailIndex)
+          .subscribe((cocktail: Cocktail) => {
+            this.cocktail = cocktail;
+          });
       }
     });
   }
   public addToPanier() {
-    this.panierService.addPanier(this.cocktail.ingredients);
+    this.panierService.addPanier(this.cocktail!.ingredients);
   }
 }

@@ -35,10 +35,11 @@ export class CocktailFormComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       const index = paramMap.get('index');
-      if (index !== null) {
+      /*       if (index !== null) {
         this.cocktail = this.cocktailService.getCocktail(+index);
-        this.cocktailForm = this.initForm(this.cocktail);
-      }
+        
+      } */
+      this.initForm(this.cocktail);
     });
   }
 

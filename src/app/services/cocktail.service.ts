@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, first, map, tap } from 'rxjs';
 import { Cocktail } from '../models/cocktail.model';
 import { HttpClient } from '@angular/common/http';
 
@@ -14,8 +14,12 @@ export class CocktailService {
     Cocktail[] | []
   >([]);
 
-  public getCocktail(index: number) {
-    return this.cocktails$.value[index];
+  public getCocktail(index: number): Observable<Cocktail> {
+    return this.cocktails$.pipe(
+      filter((cocktails: Cocktail[]) => cocktails != null),
+      first(),
+      map((cocktails: Cocktail[]) => cocktails[index])
+    );
   }
   public addCocktail(cocktail: Cocktail): void {
     const value = this.cocktails$.value;
