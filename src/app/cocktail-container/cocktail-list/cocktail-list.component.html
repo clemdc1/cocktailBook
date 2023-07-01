@@ -5,7 +5,7 @@
   placeholder="Rechercher un cocktail"
   [(ngModel)]="search"
 />
-<ul class="mb-20 list-primary">
+<ul *ngIf="cocktails" class="mb-20 list-primary">
   <li
     [routerLink]="[index]"
     routerLinkActive="active"

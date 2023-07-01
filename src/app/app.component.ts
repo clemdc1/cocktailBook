@@ -20,6 +20,6 @@ import { CocktailService } from './services/cocktail.service';
 export class AppComponent implements OnInit {
   constructor(private cocktailService: CocktailService) {}
   ngOnInit(): void {
-    this.cocktailService.fetchCocktails().subscribe();
+    this.cocktailService.fetchCocktails().subscribe((a) => console.log(a));
   }
 }

@@ -17,13 +17,16 @@ export class CocktailService {
   public getCocktail(index: number): Observable<Cocktail> {
     return this.cocktails$.pipe(
       filter((cocktails: Cocktail[]) => cocktails != null),
-      first(),
       map((cocktails: Cocktail[]) => cocktails[index])
     );
   }
   public addCocktail(cocktail: Cocktail): void {
     const value = this.cocktails$.value;
-    this.cocktails$.next([...value, cocktail]);
+    if (value) {
+      this.cocktails$.next([...value, cocktail]);
+    } else {
+      this.cocktails$.next([cocktail]);
+    }
   }
   public editCocktail(editedCocktail: Cocktail): void {
     const value = this.cocktails$.value;
