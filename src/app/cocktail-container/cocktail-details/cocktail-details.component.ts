@@ -23,12 +23,14 @@ export class CocktailDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.sub = this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-      this.cocktailService
+    this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
+      if (this.sub) {
+        this.sub.unsubscribe();
+      }
+      this.sub = this.cocktailService
         .getCocktail(+paramMap.get('index')!)
         .subscribe((cocktail: Cocktail) => {
           this.cocktail = cocktail;
-          console.log(this.cocktail);
         });
     });
   }

@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { first } from 'rxjs';
 import { Cocktail } from 'src/app/models/cocktail.model';
 import { CocktailService } from 'src/app/services/cocktail.service';
 
@@ -35,11 +36,17 @@ export class CocktailFormComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       const index = paramMap.get('index');
-      /*       if (index !== null) {
-        this.cocktail = this.cocktailService.getCocktail(+index);
-        
-      } */
-      this.initForm(this.cocktail);
+      if (index !== null) {
+        this.cocktailService
+          .getCocktail(Number(index))
+          .pipe(first((x) => !!x))
+          .subscribe((cocktail: Cocktail) => {
+            this.cocktail = cocktail;
+            this.cocktailForm = this.initForm(this.cocktail);
+          });
+      } else {
+        this.cocktailForm = this.initForm(this.cocktail);
+      }
     });
   }
 
@@ -67,10 +74,12 @@ export class CocktailFormComponent implements OnInit {
     });
   }
   public submit(): void {
-    if (this.cocktail) {
-      this.cocktailService.editCocktail(this.cocktailForm.value);
+    if (this.cocktail?._id) {
+      this.cocktailService
+        .editCocktail(this.cocktail._id, this.cocktailForm.value)
+        .subscribe();
     } else {
-      this.cocktailService.addCocktail(this.cocktailForm.value);
+      this.cocktailService.addCocktail(this.cocktailForm.value).subscribe();
     }
     this.router.navigate(['..'], { relativeTo: this.activatedRoute });
   }

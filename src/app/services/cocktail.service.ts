@@ -20,25 +20,37 @@ export class CocktailService {
       map((cocktails: Cocktail[]) => cocktails[index])
     );
   }
-  public addCocktail(cocktail: Cocktail): void {
-    const value = this.cocktails$.value;
-    if (value) {
-      this.cocktails$.next([...value, cocktail]);
-    } else {
-      this.cocktails$.next([cocktail]);
-    }
+  public addCocktail(cocktail: Cocktail): Observable<Cocktail> {
+    return this.http
+      .post<Cocktail>('https://restapi.fr/api/cocktails', cocktail)
+      .pipe(
+        tap((cocktail: Cocktail) => {
+          this.cocktails$.next([...this.cocktails$.value, cocktail]);
+        })
+      );
   }
-  public editCocktail(editedCocktail: Cocktail): void {
-    const value = this.cocktails$.value;
-    this.cocktails$.next(
-      value.map((cocktail: Cocktail) => {
-        if (cocktail.name === editedCocktail.name) {
-          return editedCocktail;
-        } else {
-          return cocktail;
-        }
-      })
-    );
+  public editCocktail(
+    cocktailId: string,
+    editedCocktail: Cocktail
+  ): Observable<Cocktail> {
+    return this.http
+      .patch<Cocktail>(
+        `https://restapi.fr/api/cocktails/${cocktailId}`,
+        editedCocktail
+      )
+      .pipe(
+        tap((savedCocktail: Cocktail) => {
+          this.cocktails$.next(
+            this.cocktails$.value.map((cocktail: Cocktail) => {
+              if (cocktail.name === savedCocktail.name) {
+                return savedCocktail;
+              } else {
+                return cocktail;
+              }
+            })
+          );
+        })
+      );
   }
 
   public fetchCocktails(): Observable<Cocktail[]> {
