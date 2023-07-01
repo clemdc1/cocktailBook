@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Cocktail } from '../models/cocktail.model';
 import { HttpClient } from '@angular/common/http';
 
@@ -32,6 +32,16 @@ export class CocktailService {
         }
       })
     );
+  }
+
+  public fetchCocktails(): Observable<Cocktail[]> {
+    return this.http
+      .get<Cocktail[] | []>('https://restapi.fr/api/cocktails')
+      .pipe(
+        tap((cocktails: Cocktail[]) => {
+          this.cocktails$.next(cocktails);
+        })
+      );
   }
 
   /* public seed() {
